@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.market.bean.GoodsCategory" table="t_goods_category" catalog="market">
+		<id name="id" column="id" type="int"><generator class="increment"/></id>
+		<property name="name" column="name" type="string"/>
+		<set name="submenu" cascade="all" lazy="false" order-by="id">
+  			<key column="category_id" />
+  			<one-to-many class="com.market.bean.GoodsCategoryChild" />
+  		</set>
+	</class>
+</hibernate-mapping>

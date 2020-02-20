@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.market.bean.OrderContent" table="t_order_content" catalog="market">
+		<id name="id" column="id" type="int"><generator class="increment"/></id>
+		<property name="price" column="price" type="double"></property>
+		<property name="number" column="number" type="int"></property>
+		<property name="subtotal" column="subtotal" type="double"></property>
+		<many-to-one name="order" column="order_id" class="com.market.bean.Order" cascade="all" lazy="false"></many-to-one>
+		<many-to-one name="goods" column="goods_id" class="com.market.bean.Goods" cascade="all" lazy="false"></many-to-one>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" /> 
+    <constant name="struts.devMode" value="false" />
+    
+	<package name="default" extends="struts-default" namespace="/">
+	
+	<!-- 用户_start -->
+		<action name="login" class="userAction" method="login">
+			<result name="success" type="redirect">/index.jsp</result>
+			<result name="input">/index.jsp</result>
+		</action>
+		<action name="logout" class="userAction" method="logout">
+			<result name="success" type="redirect">/index.jsp</result>
+		</action>
+		<action name="showUsers" class="findAllAction">
+			<result name="success">/success.jsp</result>
+		</action>
+		<action name="regist" class="userAction" method="regist">
+			<result name="success" type="redirect">/index.jsp</result>
+			<result name="error">/register.jsp</result>
+		</action>
+	<!-- 用户_end -->
+	<!-- 商品_start -->
+		<action name="list" class="goodsAction" method="showByCategory">
+			<result name="success">/list.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="single*" class="goodsAction" method="showGoods">
+			<result name="success">/single.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+	<!-- 商品_end -->
+	<!-- 购物车_start -->
+		<action name="addToCart" class="cartAction" method="addToCart">
+			<result name="success" type="redirectAction">single?gid=${goodsID}</result>
+			<result name="error">/index.jsp</result>
+		</action>
+		<action name="deleteFromCart" class="cartAction" method="deleteFromCart">
+			<result name="success" type="redirect">/check.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+	<!-- 购物车_end -->
+	<!-- 订单_start -->
+		<action name="order_*" class="orderAction" method="{1}">
+			<result name="success" type="redirect">/check.jsp</result>
+			<result name="myOrder" type="redirect">/myOrder.jsp</result>
+			<result name="error">/index.jsp</result>
+		</action>
+	<!-- 订单_end -->
+	<!-- 首页_start -->
+		<action name="index_*" class="goodsAction" method="{1}">
+			<result name="{1}" type="redirect">/index.jsp</result>
+		</action>
+	<!-- 首页_end -->
+	</package>
+</struts>    

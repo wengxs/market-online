@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+ 	<class name="com.market.bean.GoodsComment" table="t_goods_comment" catalog="market">
+		<id name="id" column="id" type="int"><generator class="increment"/></id>
+  		<property name="content" column="content" type="text"/>
+  		<property name="postTime" column="post_time" type="date"/>
+  		<many-to-one name="goods" column="goods_id" class="com.market.bean.Goods" cascade="all" lazy="false"/>
+  		<many-to-one name="user" column="user_id" class="com.market.bean.User" cascade="all" lazy="false"/>
+	</class>
+</hibernate-mapping>

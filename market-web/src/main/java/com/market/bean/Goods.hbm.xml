@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.market.bean.Goods" table="t_goodses" catalog="market">
+		<id name="id" column="id" type="int"><generator class="increment"/></id>
+		<property name="name" column="name" type="string"></property>
+		<property name="content" column="content" type="string"></property>
+		<property name="price" column="price" type="double"></property>
+		<property name="stock" column="stock" type="int"></property>
+		<property name="sell" column="is_sell" type="yes_no"></property>
+		<property name="saleTime" column="sale_time" type="date"></property>
+		<property name="saleCount" column="sale_count" type="int"></property>
+		<property name="top" column="is_top" type="yes_no"></property>
+		<many-to-one name="categoryChild" column="category_id" class="com.market.bean.GoodsCategoryChild" cascade="all" lazy="false"></many-to-one>
+		<set name="goodsImgs" inverse="true" lazy="false" order-by="id">
+  			<key column="goods_id" />
+  			<one-to-many class="com.market.bean.GoodsImg" />
+  		</set>
+  		<set name="goodsComments" inverse="true" lazy="false" order-by="id">
+  			<key column="goods_id" />
+  			<one-to-many class="com.market.bean.GoodsComment" />
+  		</set>
+	</class>
+</hibernate-mapping>

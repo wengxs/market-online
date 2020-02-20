@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="dataSource"
+		class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass"
+			value="com.mysql.jdbc.Driver">
+		</property>
+		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/market"></property>
+		<property name="user" value="root"></property>
+		<property name="password" value="root"></property>
+	</bean>
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.MySQLDialect
+				</prop>
+			</props>
+		</property>
+		<property name="mappingResources">
+			<list>
+				<value>com/market/bean/User.hbm.xml</value>
+				<value>com/market/bean/Address.hbm.xml</value>
+				<value>com/market/bean/GoodsCategory.hbm.xml</value>
+				<value>com/market/bean/GoodsCategoryChild.hbm.xml</value>
+				<value>com/market/bean/Goods.hbm.xml</value>
+				<value>com/market/bean/GoodsImg.hbm.xml</value>
+				<value>com/market/bean/GoodsComment.hbm.xml</value>
+				<value>com/market/bean/OrderStatus.hbm.xml</value>
+				<value>com/market/bean/Order.hbm.xml</value>
+				<value>com/market/bean/OrderContent.hbm.xml</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="hibernateTemplate" 
+		class="org.springframework.orm.hibernate3.HibernateTemplate">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<!-- =====User===== -->
+	<bean id="userDao" class="com.market.dao.impl.UserDaoImpl">
+		<constructor-arg><ref bean="hibernateTemplate" /></constructor-arg>
+	</bean>
+	<bean id="userService" class="com.market.service.impl.UserServiceImpl">
+		<constructor-arg><ref bean="userDao" /></constructor-arg>
+	</bean>
+	<!-- =====Address===== -->
+	<bean id="addressDao" class="com.market.dao.impl.AddressDaoImpl">
+		<constructor-arg><ref bean="hibernateTemplate" /></constructor-arg>
+	</bean>
+	<bean id="addressService" class="com.market.service.impl.AddressServiceImpl">
+		<constructor-arg><ref bean="addressDao" /></constructor-arg>
+	</bean>
+	<!-- =====GoodsCategory===== -->
+	<bean id="goodsCategoryDao" class="com.market.dao.impl.GoodsCategoryDaoImpl">
+		<constructor-arg><ref bean="hibernateTemplate" /></constructor-arg>
+	</bean>
+	<bean id="goodsCategoryService" class="com.market.service.impl.GoodsCategoryServiceImpl">
+		<constructor-arg><ref bean="goodsCategoryDao" /></constructor-arg>
+	</bean>
+	<!-- =====GoodsCategoryChild===== -->
+	<bean id="goodsCategoryChildDao" class="com.market.dao.impl.GoodsCategoryChildDaoImpl">
+		<constructor-arg><ref bean="hibernateTemplate" /></constructor-arg>
+	</bean>
+	<bean id="goodsCategoryChildService" class="com.market.service.impl.GoodsCategoryChildServiceImpl">
+		<constructor-arg><ref bean="goodsCategoryChildDao" /></constructor-arg>
+	</bean>
+	<!-- =====Goods===== -->
+	<bean id="goodsDao" class="com.market.dao.impl.GoodsDaoImpl">
+		<constructor-arg><ref bean="hibernateTemplate" /></constructor-arg>
+	</bean>
+	<bean id="goodsService" class="com.market.service.impl.GoodsServiceImpl">
+		<constructor-arg><ref bean="goodsDao" /></constructor-arg>
+		<constructor-arg><ref bean="goodsImgService" /></constructor-arg>
+		<constructor-arg><ref bean="goodsCommentService" /></constructor-arg>
+	</bean>
+	<!-- =====GoodsImg===== -->
+	<bean id="goodsImgDao" class="com.market.dao.impl.GoodsImgDaoImpl">
+		<constructor-arg><ref bean="hibernateTemplate" /></constructor-arg>
+	</bean>
+	<bean id="goodsImgService" class="com.market.service.impl.GoodsImgServiceImpl">
+		<constructor-arg><ref bean="goodsImgDao" /></constructor-arg>
+	</bean>
+	<!-- =====GoodsComment===== -->
+	<bean id="goodsCommentDao" class="com.market.dao.impl.GoodsCommentDaoImpl">
+		<constructor-arg><ref bean="hibernateTemplate" /></constructor-arg>
+	</bean>
+	<bean id="goodsCommentService" class="com.market.service.impl.GoodsCommentServiceImpl">
+		<constructor-arg><ref bean="goodsCommentDao" /></constructor-arg>
+	</bean>
+	<!-- =====OrderStatus===== -->
+	<bean id="orderStatusDao" class="com.market.dao.impl.OrderStatusDaoImpl">
+		<constructor-arg><ref bean="hibernateTemplate" /></constructor-arg>
+	</bean>
+	<bean id="orderStatusService" class="com.market.service.impl.OrderStatusServiceImpl">
+		<constructor-arg><ref bean="orderStatusDao" /></constructor-arg>
+	</bean>
+	<!-- =====Order===== -->
+	<bean id="orderDao" class="com.market.dao.impl.OrderDaoImpl">
+		<constructor-arg><ref bean="hibernateTemplate" /></constructor-arg>
+	</bean>
+	<bean id="orderService" class="com.market.service.impl.OrderServiceImpl">
+		<constructor-arg><ref bean="orderDao" /></constructor-arg>
+		<constructor-arg><ref bean="orderContentDao" /></constructor-arg>
+		<constructor-arg><ref bean="goodsDao" /></constructor-arg>
+	</bean>
+	<!-- =====OrderContent===== -->
+	<bean id="orderContentDao" class="com.market.dao.impl.OrderContentDaoImpl">
+		<constructor-arg><ref bean="hibernateTemplate" /></constructor-arg>
+	</bean>
+	<bean id="orderContentService" class="com.market.service.impl.OrderContentServiceImpl">
+		<constructor-arg><ref bean="orderContentDao" /></constructor-arg>
+	</bean>
+	
+	
+	
+	<!-- =====ServiceManager===== -->
+	<bean id="serviceManager" class="com.market.service.impl.ServiceManager">
+		<property name="userService"><ref bean="userService" /></property>
+		<property name="addressService"><ref bean="addressService" /></property>
+		<property name="goodsCategoryService"><ref bean="goodsCategoryService" /></property>
+		<property name="goodsCategoryChildService"><ref bean="goodsCategoryChildService" /></property>
+		<property name="goodsService"><ref bean="goodsService" /></property>
+		<property name="goodsImgService"><ref bean="goodsImgService" /></property>
+		<property name="goodsCommentService"><ref bean="goodsCommentService" /></property>
+		<property name="orderStatusService"><ref bean="orderStatusService" /></property>
+		<property name="orderService"><ref bean="orderService" /></property>
+		<property name="orderContentService"><ref bean="orderContentService" /></property>
+	</bean>
+	<!-- =====用户===== -->
+	<bean id="userAction" class="com.market.action.UserAction" scope="prototype">
+		<property name="userService"><ref bean="userService" /></property>
+	</bean>
+	<!-- =====商品===== -->
+	<bean id="goodsAction" class="com.market.action.GoodsAction" scope="prototype">
+		<property name="goodsService"><ref bean="goodsService" /></property>
+		<property name="goodsCategoryChildService"><ref bean="goodsCategoryChildService" /></property>
+		<!-- <property name="goodsImgService"><ref bean="goodsImgService" /></property> -->
+	</bean>
+	<!-- =====购物车===== -->
+	<bean id="cartAction" class="com.market.action.CartAction" scope="prototype">
+		<property name="goodsService"><ref bean="goodsService" /></property>
+	</bean>
+	<!-- =====订单===== -->
+	<bean id="orderAction" class="com.market.action.OrderAction" scope="prototype">
+		<property name="orderService"><ref bean="orderService" /></property>
+		<property name="addressService"><ref bean="addressService" /></property>
+		<property name="userService"><ref bean="userService" /></property>
+	</bean>
+</beans>

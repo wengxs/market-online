@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.market.bean.OrderStatus" table="t_order_status" catalog="market">
+		<id name="id" column="id" type="int"><generator class="increment"/></id>
+		<property name="status" column="status" type="string"></property>
+		<set name="orders" inverse="true" lazy="false" order-by="id">
+  			<key column="status_id" />
+  			<one-to-many class="com.market.bean.Order" />
+  		</set>
+	</class>
+</hibernate-mapping>

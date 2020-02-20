@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.market.bean.User" table="t_users" catalog="market">
+		<id name="id" column="id" type="int"><generator class="increment"/></id>
+		<property name="nickname" column="nickname" type="string"></property>
+		<property name="realname" column="realname" type="string"></property>
+		<property name="email" column="email" type="string"></property>
+		<property name="password" column="password" type="string"></property>
+		<property name="question" column="question" type="string"></property>
+		<property name="answer" column="answer" type="string"></property>
+		<property name="sex" column="sex" type="string"></property>
+		<property name="birthday" column="birthday" type="date"></property>
+		<property name="address" column="address" type="string"></property>
+		<property name="qq" column="qq" type="string"></property>
+		<property name="phone" column="phone" type="string"></property>
+		
+		<set name="addresses" inverse="true" lazy="false" order-by="id">
+  			<key column="user_id" />
+  			<one-to-many class="com.market.bean.Address" />
+  		</set>
+  		<set name="goodsComments" inverse="true" lazy="false" order-by="id">
+  			<key column="user_id" />
+  			<one-to-many class="com.market.bean.GoodsComment" />
+  		</set>
+  		<set name="orders" inverse="true" lazy="false" order-by="id">
+  			<key column="user_id" />
+  			<one-to-many class="com.market.bean.Order" />
+  		</set>
+	</class>
+</hibernate-mapping>
